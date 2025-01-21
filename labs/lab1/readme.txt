@@ -1,6 +1,6 @@
-# Activity / Lab / Assignment / Project Title
+# Lab 1
 
-**[Optional]** If what is being submitted is an individual Lab or Assignment. Otherwise, include a brief one paragraph description about the project.
+* A responsive personal webpage showcasing information about the author and their projects.
 
 * *Date Created*: 20 Jan 2025
 * *Last Modification Date*: 20 Jan 2025
