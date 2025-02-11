@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f6fa;
+}
+
+.container {
+    background-color: #fff;
+    margin-top: 5em;
+    border: solid #dcdde1 thin;
+    padding: 2.5em;
+}
+
+/* Success Notification Bar */
+#notification-bar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background-color: #2ecc71;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    padding: 15px;
+    display: none;
+    z-index: 999;
+}
+
+#notification-bar .close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+}
+
+/* Alert Boxes */
+.alert {
+    position: relative;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: white;
+    font-size: 1.2em;
+    margin: 10px auto;
+    padding: 10px;
+    width: 90%;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #2ecc71;
+}
+
+.alert-warning {
+    background-color: #e67e22;
+}
+
+.alert-danger {
+    background-color: #e74c34;
+}
+
+.close {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+}
+  
+ /* Background Image (Fixed behind form) */
+.img-background-horizontal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://cdn.pixabay.com/photo/2020/12/18/15/29/mountains-5842346_1280.jpg");
+    background-size: cover;
+    background-position: center;
+    animation: horizontalMove 50s infinite ease;
+    z-index: -1; /* Send it to the background */
+}
+
+/* Move Form Above Background */
+.container {
+    position: relative; /* Keep it above background */
+    background-color: rgba(255, 255, 255, 0.9); /* Add slight transparency */
+    margin-top: 5em;
+    border: solid #dcdde1 thin;
+    padding: 2.5em;
+    border-radius: 10px;
+}
+
+/* Animation for moving background */
+@keyframes horizontalMove {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 20%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
