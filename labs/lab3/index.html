@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Inventory Management System</h1>
+    
+    <div id="controls">
+        <button onclick="listItems()">Show Inventory</button>
+        <button onclick="calculateTotalValue()">Calculate Total Value</button>
+    </div>
+    
+    <div id="inventory-list"></div>
+    
+    <h2>Add New Item</h2>
+    <input type="text" id="itemName" placeholder="Item Name">
+    <input type="text" id="itemType" placeholder="Item Type">
+    <input type="number" id="itemPrice" placeholder="Price">
+    <input type="number" id="itemQuantity" placeholder="Quantity">
+    <input type="text" id="itemDescription" placeholder="Description">
+    <button onclick="addItemFromInput()">Add Item</button>
+    
+    <h2>Remove Item</h2>
+    <input type="text" id="removeItemName" placeholder="Enter Item Name">
+    <button onclick="removeItemFromInput()">Remove Item</button>
+    
+    <script src="script.js"></script>
+</body>
+</html>
