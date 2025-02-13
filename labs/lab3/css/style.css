@@ -1,39 +1,410 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 20px;
-    background-color: #f4f4f4;
+    background-color: #f5f5f5;
+    font-family: 'Muli', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
 }
 
 h1 {
-    color: #333;
+    margin: 20px 0;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-#controls {
+/* Notification Bar */
+#notification-bar {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    display: none;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+
+/* Toggle Switch */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
     margin-bottom: 20px;
 }
 
-button {
-    margin: 5px;
+.btn-toggle {
+    background-color: #ddd;
+    width: 60px;
+    height: 30px;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px;
+}
+
+.btn-toggle .handle {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+/* Toggle Active (ON) */
+.btn-toggle.active {
+    background-color: #ff8300;
+}
+
+.btn-toggle.active .handle {
+    transform: translateX(30px);
+    background: white;
+}
+
+/* Hover Effect for Toggle */
+.btn-toggle:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Shopping Cart */
+#cart-container {
+    width: 70%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.item-card {
+    display: flex;
+    align-items: center;
     padding: 10px;
-    background-color: #007bff;
+    border-bottom: 1px solid #ddd;
+}
+
+.item-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-right: 15px;
+}
+
+.item-details {
+    flex-grow: 1;
+}
+
+/* Remove Button */
+.remove-btn {
+    background: #ff4d4d;
     color: white;
     border: none;
+    padding: 8px 12px;
     cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s;
 }
 
-button:hover {
-    background-color: #0056b3;
+.remove-btn:hover {
+    background: #cc0000;
+    transform: scale(1.05);
 }
 
-input {
-    margin: 5px;
-    padding: 8px;
+/* Add Item Button */
+.add-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.2s;
 }
 
-#inventory-list {
-    margin-top: 20px;
-    padding: 10px;
+.add-btn:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
+
+/* Form Box */
+.form-box {
+    width: 50%;
     background: white;
-    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-control {
+    position: relative;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.form-control input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transition: 0.3s;
+    font-size: 14px;
+    color: #888;
+}
+
+.form-control input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.form-control input:focus + label,
+.form-control input:valid + label {
+    transform: translateY(-20px);
+    font-size: 12px;
+}
+
+/* Action Buttons */
+.action-btn {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.action-btn:hover {
+    background: #1976D2;
+    transform: scale(1.05);
+}
+
+/* Hidden */
+.hidden {
+    display: none;
+}
+
+.wraper {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 2em;
+    align-items: center;
+  }
+  
+  .label-text {
+    font-weight: bolder;
+    font-size: 2rem;
+  }
+  
+
+  .switch-wrap {
+    cursor: pointer;
+    background: #15273b;
+    padding: 7px;
+    width: 70px;
+    height: 10px;
+    border-radius: 15px;
+    input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+  }
+  .switch {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0fr 1fr 1fr;
+    transition: .2s;
+  
+    &::after {
+      content: '';
+      border-radius: 30%;
+      background: #ccc;
+      grid-column: 2;
+     
+    }
+  }
+  input:checked {
+    + .switch {
+      grid-template-columns: 1fr 1fr 0fr; 
+      &::after {
+        background-color: #52cf71;
+      }
+    }
+}
+
+
+
+.button-28 {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #1A1A1A;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #3B3B3B;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 60px;
+    min-width: 0;
+    outline: none;
+    padding: 16px 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 100%;
+    will-change: transform;
+  }
+  
+  .button-28:disabled {
+    pointer-events: none;
+  }
+  
+  .button-28:hover {
+    color: #fff;
+    background-color: #1A1A1A;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+  }
+  
+  .button-28:active {
+    box-shadow: none;
+    transform: translateY(0);
+  }
+  
+
+  .button-24 {
+    background: #FF4742;
+    border: 1px solid #FF4742;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .button-24:hover,
+  .button-24:active {
+    background-color: transparent;
+    color: #FF4742;
+    border: 1px solid #FF4742;
+  }
+  
+  .button-24:active {
+    opacity: 0.5;
+  }
+  
+  .button-56 {
+    align-items: center;
+    background-color: #fee6e3;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .button-56:after {
+    background-color: #111;
+    border-radius: 8px;
+    content: "";
+    display: block;
+    height: 48px;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    top: -2px;
+    transform: translate(8px, 8px);
+    transition: transform 0.2s ease-out;
+    z-index: -1;
+  }
+  
+  .button-56:hover:after {
+    transform: translate(0, 0);
+  }
+  
+  .button-56:active {
+    background-color: #ffdeda;
+    outline: 0;
+  }
+  
+  .button-56:hover {
+    outline: 0;
+  }
+  

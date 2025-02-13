@@ -4,30 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Management System</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
     <h1>Inventory Management System</h1>
-    
-    <div id="controls">
-        <button onclick="listItems()">Show Inventory</button>
-        <button onclick="calculateTotalValue()">Calculate Total Value</button>
+
+    <!-- Notification Bar -->
+    <div id="notification-bar" class="hidden"></div>
+
+    <!-- Toggle Inventory -->
+  <!-- Toggle Inventory -->
+<div class="toggle-container">
+    <h2>Show Inventory</h2>
+    <label class="wrapper">
+        <span class="label-text"></span>
+        <div class="switch-wrap">
+            <input type="checkbox" id="toggleInventory" onclick="toggleInventory()"/>
+            <div class="switch"></div>
+        </div>
+    </label>
+</div>
+
+
+    <!-- Shopping Cart -->
+    <div id="cart-container" class="hidden">
+        <h2>Shopping Cart</h2>
+        <div id="inventory-list"></div>
     </div>
+
+    <!-- Actions -->
     
-    <div id="inventory-list"></div>
-    
-    <h2>Add New Item</h2>
-    <input type="text" id="itemName" placeholder="Item Name">
-    <input type="text" id="itemType" placeholder="Item Type">
-    <input type="number" id="itemPrice" placeholder="Price">
-    <input type="number" id="itemQuantity" placeholder="Quantity">
-    <input type="text" id="itemDescription" placeholder="Description">
-    <button onclick="addItemFromInput()">Add Item</button>
-    
-    <h2>Remove Item</h2>
-    <input type="text" id="removeItemName" placeholder="Enter Item Name">
-    <button onclick="removeItemFromInput()">Remove Item</button>
-    
-    <script src="script.js"></script>
+        <div class="actions">
+            <button class="button-56" role="button" onclick="calculateTotalValue()">Calculate Total Value</button>
+            <button class="button-56" role="button" onclick="toggleDiscount()">Apply 10% Discount</button>
+        </div>
+        
+
+
+    <!-- Add New Item -->
+    <div class="form-box">
+        <h2>Add New Item</h2>
+        <div class="form-container">
+            <div class="form-control">
+                <input type="text" id="itemName" required>
+                <label>Item Name</label>
+            </div>
+            <div class="form-control">
+                <input type="text" id="itemType" required>
+                <label>Item Type</label>
+            </div>
+            <div class="form-control">
+                <input type="number" id="itemPrice" required>
+                <label>Price</label>
+            </div>
+            <div class="form-control">
+                <input type="number" id="itemQuantity" required>
+                <label>Quantity</label>
+            </div>
+            <div class="form-control">
+                <input type="text" id="itemDescription" required>
+                <label>Description</label>
+            </div>
+            <button class="button-28" role="button" onclick="addItemFromInput()">Add Item</button>
+
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
