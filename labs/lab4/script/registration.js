@@ -99,6 +99,17 @@ registrationForm.addEventListener("submit", (event) => {
       formIsValid = false;
     }
 
+    const showNotification = (message) => {
+        const notificationBar = document.getElementById("notificationBar");
+        notificationBar.textContent = message;
+        notificationBar.classList.add("show");
+    
+        // Hide after 3 seconds
+        setTimeout(() => {
+            notificationBar.classList.remove("show");
+        }, 3000);
+    };
+    
     if (formIsValid) {
         // Load existing users from localStorage
         let users = JSON.parse(localStorage.getItem("userCredentials")) || {};
@@ -109,6 +120,9 @@ registrationForm.addEventListener("submit", (event) => {
         // Save back to localStorage
         localStorage.setItem("userCredentials", JSON.stringify(users));
     
+        // Show notification
+        showNotification(`Thank you for registering, ${username}!`);
+    
         // Provide success message
         document.getElementById("registrationFeedback").textContent = "Registration successful!";
         document.getElementById("registrationFeedback").classList.add("success-message");
@@ -118,6 +132,7 @@ registrationForm.addEventListener("submit", (event) => {
         // Clear fields
         registrationForm.reset();
     }
+    
     
   } catch (error) {
     // In case of unexpected errors

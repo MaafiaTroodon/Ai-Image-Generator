@@ -2,7 +2,7 @@
  * login.js
  *
  * Handles login form:
- *  - Validates if username/password exist in userCredentials Map
+ *  - Validates if username/password exist in localStorage
  *  - Displays error messages and success feedback
  */
 
@@ -11,41 +11,64 @@ const loginForm = document.getElementById("loginForm");
 loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  // Destructure again
+  // Destructure form fields
   const {
     loginUsername: { value: username },
     loginPassword: { value: password },
   } = loginForm.elements;
 
-  // Clear old error messages
+  // Clear previous error messages
   document.getElementById("loginUserError").textContent = "";
   document.getElementById("loginPassError").textContent = "";
 
   try {
+    // Retrieve stored users from localStorage
+    const users = JSON.parse(localStorage.getItem("userCredentials")) || {};
+
     const feedbackEl = document.getElementById("loginFeedback");
-    feedbackEl.textContent = "";
+    feedbackEl.textContent = ""; // Clear previous feedback
 
     // Check if username exists
-    if (!userCredentials.has(username)) {
+    if (!users[username]) {
       document.getElementById("loginUserError").textContent = "Username not found.";
       return;
     }
 
     // Check password
-    const storedPass = userCredentials.get(username);
-    if (storedPass !== password) {
+    if (users[username] !== password) {
       document.getElementById("loginPassError").textContent = "Incorrect password.";
       return;
     }
 
-     // If login is successful
-     document.getElementById("loginFeedback").textContent = "Login successful!";
-     document.getElementById("loginFeedback").classList.add("success-message");
- 
-     console.log("User logged in:", username);
+    const showNotification = (message) => {
+        const notificationBar = document.getElementById("notificationBar");
+        notificationBar.textContent = message;
+        notificationBar.classList.add("show");
+    
+        // Hide after 3 seconds
+        setTimeout(() => {
+            notificationBar.classList.remove("show");
+        }, 3000);
+    };
+    
+    if (users[username] === password) {
+        showNotification(`Welcome, ${username}!`);
+    
+        feedbackEl.textContent = "Login successful!";
+        feedbackEl.classList.add("success-message");
+    
+        console.log("User logged in:", username);
+    
+        // Redirect (optional)
+        // window.location.href = "dashboard.html";
+    }
+    
 
-    // Optionally clear form or redirect
+    
+
+    // Clear form after login
     loginForm.reset();
+
   } catch (error) {
     console.error("An error occurred during login:", error);
     alert("Something went wrong while logging in. Please try again.");
