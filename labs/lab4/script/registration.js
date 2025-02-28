@@ -1,142 +1,149 @@
+// In-memory database using Maps & Sets
+const users = new Map(); // Stores username -> password mapping
+const emails = new Set(); // Tracks registered emails
+
 /**
- * registration.js
- *
- * Handles registration form logic:
- *  - Validates email, username, password inputs
- *  - Displays error messages and success/failure feedback
- *  - If valid, inserts new user into our in-memory Map
- *
- * Demonstrates arrow functions, destructuring, try/catch error handling, etc.
+ * Custom function to check if an email is valid
+ * - Must contain exactly **one** '@' symbol
+ * - Must contain a period '.' after '@'
+ * - The domain must be at least 2 characters long
  */
-
-
-console.log("Users:", userCredentials);
-
-const registrationForm = document.getElementById("registrationForm");
-
 const isEmailValid = (email) => {
-  // Basic email check w/ TLD of 2-8 characters
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,8}$/;
-  return emailRegex.test(email);
+    let atCount = 0, atIndex = -1, dotIndex = -1;
+    for (let i = 0; i < email.length; i++) {
+        if (email[i] === '@') {
+            atCount++;
+            atIndex = i;
+        }
+        if (email[i] === '.' && i > atIndex + 1) {
+            dotIndex = i;
+        }
+    }
+    return atCount === 1 && dotIndex > atIndex + 1 && email.length - dotIndex > 2;
 };
 
+/**
+ * Custom function to validate username
+ * - First character must be a letter (A-Z or a-z)
+ * - Only letters, numbers, and underscores allowed
+ */
 const isUsernameValid = (username) => {
-  // Must not begin with digit, no spaces or special chars:
-  //  ^[A-Za-z][A-Za-z0-9_]*$  (for example)
-  // This example disallows special characters except underscore.
-  const usernameRegex = /^[A-Za-z][A-Za-z0-9_]*$/;
-  return usernameRegex.test(username);
+    if (username.length === 0) return false;
+    let firstChar = username[0];
+    if (!((firstChar >= 'A' && firstChar <= 'Z') || (firstChar >= 'a' && firstChar <= 'z'))) return false;
+    for (let i = 0; i < username.length; i++) {
+        let c = username[i];
+        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c === '_')) {
+            return false;
+        }
+    }
+    return true;
 };
 
+/**
+ * Custom function to validate password
+ * - Minimum length: 12
+ * - At least 1 uppercase, 1 lowercase, 1 number, 1 special character
+ */
 const isPasswordValid = (password) => {
-  // At least ONE digit, ONE uppercase, ONE lowercase, ONE special char, 12+ length
-  // Example regex:
-  const passRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{12,}$/;
-  return passRegex.test(password);
+    if (password.length < 12) return false;
+
+    let hasUpper = false, hasLower = false, hasNumber = false, hasSpecial = false;
+    let specialChars = "!@#$%^&*()-_+=[]{}|;:'\",.<>?/";
+    
+    for (let i = 0; i < password.length; i++) {
+        let c = password[i];
+        if (c >= 'A' && c <= 'Z') hasUpper = true;
+        else if (c >= 'a' && c <= 'z') hasLower = true;
+        else if (c >= '0' && c <= '9') hasNumber = true;
+        else {
+            for (let j = 0; j < specialChars.length; j++) {
+                if (c === specialChars[j]) {
+                    hasSpecial = true;
+                    break;
+                }
+            }
+        }
+    }
+    return hasUpper && hasLower && hasNumber && hasSpecial;
 };
 
-// Helper arrow function to display an error
-const displayError = (inputId, errorId, message) => {
-  const inputEl = document.getElementById(inputId);
-  const errorEl = document.getElementById(errorId);
-  errorEl.textContent = message;
-  if (message) {
-    inputEl.classList.add("error-border");
-  } else {
-    inputEl.classList.remove("error-border");
-  }
+// Function to show notification messages
+const showNotification = (message) => {
+    const notificationBar = document.getElementById("notificationBar");
+    notificationBar.textContent = message;
+    notificationBar.classList.add("show");
+
+    setTimeout(() => {
+        notificationBar.classList.remove("show");
+    }, 3000);
 };
 
-registrationForm.addEventListener("submit", (event) => {
-  event.preventDefault();
+// Attach event listener to form
+document.getElementById("registrationForm").addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  // Destructure the form fields
-  const {
-    regEmail: { value: email },
-    regUsername: { value: username },
-    regPassword: { value: password },
-    regConfirmPassword: { value: confirmPassword },
-  } = registrationForm.elements;
+    // Destructure form fields
+    const { regEmail, regUsername, regPassword, regConfirmPassword } = event.target.elements;
+    const email = regEmail.value.trim();
+    const username = regUsername.value.trim();
+    const password = regPassword.value;
+    const confirmPassword = regConfirmPassword.value;
 
-  // Reset any old errors
-  displayError("regEmail", "emailError", "");
-  displayError("regUsername", "usernameError", "");
-  displayError("regPassword", "passwordError", "");
-  displayError("regConfirmPassword", "confirmPasswordError", "");
+    // Clear previous error messages
+    document.getElementById("emailError").textContent = "";
+    document.getElementById("usernameError").textContent = "";
+    document.getElementById("passwordError").textContent = "";
+    document.getElementById("confirmPasswordError").textContent = "";
 
-  let formIsValid = true;
+    let isValid = true;
 
-  try {
-    // Validate email
-    if (!isEmailValid(email)) {
-      displayError("regEmail", "emailError", "Invalid email format.");
-      formIsValid = false;
-    } else if (registeredEmails.has(email)) {
-      displayError("regEmail", "emailError", "Email is already registered.");
-      formIsValid = false;
+    try {
+        // Validate email
+        if (!isEmailValid(email)) {
+            document.getElementById("emailError").textContent = "Invalid email format.";
+            isValid = false;
+        } else if (emails.has(email)) {
+            document.getElementById("emailError").textContent = "Email already registered.";
+            isValid = false;
+        }
+
+        // Validate username
+        if (!isUsernameValid(username)) {
+            document.getElementById("usernameError").textContent = "Invalid username format.";
+            isValid = false;
+        } else if (users.has(username)) {
+            document.getElementById("usernameError").textContent = "Username already taken.";
+            isValid = false;
+        }
+
+        // Validate password
+        if (!isPasswordValid(password)) {
+            document.getElementById("passwordError").textContent = "Password must be at least 12 characters long with uppercase, lowercase, number, and special character.";
+            isValid = false;
+        }
+
+        // Confirm Password
+        if (password !== confirmPassword) {
+            document.getElementById("confirmPasswordError").textContent = "Passwords do not match.";
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Save new user
+            users.set(username, password);
+            emails.add(email);
+
+            // Success message
+            showNotification(`Thank you for registering, ${username}!`);
+            document.getElementById("registrationFeedback").textContent = "Registration successful!";
+            console.log("New user registered:", username);
+
+            // Reset form
+            event.target.reset();
+        }
+    } catch (error) {
+        console.error("Registration error:", error);
+        alert("An unexpected error occurred. Please try again.");
     }
-
-    // Validate username
-    if (!isUsernameValid(username)) {
-      displayError("regUsername", "usernameError", 
-        "Username must start with a letter and contain no spaces/special chars.");
-      formIsValid = false;
-    } else if (userCredentials.has(username)) {
-      displayError("regUsername", "usernameError", "Username is already taken.");
-      formIsValid = false;
-    }
-
-    // Validate password
-    if (!isPasswordValid(password)) {
-      displayError("regPassword", "passwordError", 
-        "Password must be ≥12 chars & include uppercase, lowercase, digit, special char.");
-      formIsValid = false;
-    }
-
-    // Confirm Password
-    if (password !== confirmPassword) {
-      displayError("regConfirmPassword", "confirmPasswordError", "Passwords do not match.");
-      formIsValid = false;
-    }
-
-    const showNotification = (message) => {
-        const notificationBar = document.getElementById("notificationBar");
-        notificationBar.textContent = message;
-        notificationBar.classList.add("show");
-    
-        // Hide after 3 seconds
-        setTimeout(() => {
-            notificationBar.classList.remove("show");
-        }, 3000);
-    };
-    
-    if (formIsValid) {
-        // Load existing users from localStorage
-        let users = JSON.parse(localStorage.getItem("userCredentials")) || {};
-    
-        // Add new user to the stored object
-        users[username] = password;
-    
-        // Save back to localStorage
-        localStorage.setItem("userCredentials", JSON.stringify(users));
-    
-        // Show notification
-        showNotification(`Thank you for registering, ${username}!`);
-    
-        // Provide success message
-        document.getElementById("registrationFeedback").textContent = "Registration successful!";
-        document.getElementById("registrationFeedback").classList.add("success-message");
-    
-        console.log("New user added:", username);
-    
-        // Clear fields
-        registrationForm.reset();
-    }
-    
-    
-  } catch (error) {
-    // In case of unexpected errors
-    console.error("An error occurred during registration:", error);
-    alert("Oops! Something went wrong. Please try again.");
-  }
 });
