@@ -6,7 +6,7 @@ The frontend is styled using Tailwind CSS, and Vanta.js is used to create an ani
 
 * *Date Created*: 07 03 2025
 * *Last Modification Date*: 08 03 2025
-* *Lab URL*: https://67cbe4fec8aa31d5de1dabac--inspiring-vacherin-b4c744.netlify.app/
+* *Lab URL*: https://67cbf6a86b776b813507f9e4--remarkable-paprenjak-9b8efd.netlify.app/
 https://git.cs.dal.ca/mdmahajan/csci3172/labs/lab5.git
 
 
