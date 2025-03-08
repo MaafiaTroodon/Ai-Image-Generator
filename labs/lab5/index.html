@@ -59,7 +59,7 @@
             loadingText.classList.remove("hidden");
 
             try {
-                const response = await fetch("/generate-image", {
+                const response = await fetch("/.netlify/functions/generate-image", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ prompt }),
