@@ -59,11 +59,12 @@
             loadingText.classList.remove("hidden");
 
             try {
-                const response = await fetch("http://192.168.2.160:3000/generate-image", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ prompt }),
-                });
+                const response = await fetch("/generate-image", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ prompt }),
+});
+
 
                 const data = await response.json();
                 loadingText.classList.add("hidden");

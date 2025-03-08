@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "build": "tailwindcss -i styles.css -o output.css"
   },
   "keywords": [],
   "author": "",
@@ -13,14 +14,10 @@
     "axios": "^1.8.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "openai": "^4.86.2"
+    "express": "^4.21.2"
   },
   "devDependencies": {
     "netlify-cli": "^19.0.2",
     "tailwindcss": "^4.0.12"
   }
-  
 }
-
-
