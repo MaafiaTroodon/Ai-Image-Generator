@@ -6,15 +6,28 @@
     <title>Image Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-lg bg-white shadow-md rounded-lg p-6">
+<body class="bg-gray-100 flex items-center justify-center min-h-screen relative">
+
+    <!-- Vanta.js Background -->
+    <div id="vanta-bg" class="absolute top-0 left-0 w-full h-full -z-10"></div>
+
+    <div class="w-full max-w-lg bg-white shadow-md rounded-lg p-6 relative">
         <h1 class="text-2xl font-bold text-center mb-4">AI Image Generator</h1>
         
         <!-- Prompt Input -->
         <div class="flex space-x-2">
             <input type="text" id="prompt" class="w-full p-2 border rounded-md focus:ring focus:ring-blue-300" placeholder="Enter a prompt...">
-            <button onclick="generateImage()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Generate</button>
+            
+            <!-- Slide Hover Button -->
+            <button onclick="generateImage()"
+                class="before:ease relative h-12 w-40 overflow-hidden border border-black shadow-2xl 
+                       before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right 
+                       before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-gray-900 
+                       before:transition-all before:duration-300 hover:text-white hover:shadow-black hover:before:-rotate-180">
+                <span class="relative z-10">Generate</span>
+            </button>
         </div>
+        
 
         <!-- Loading Spinner -->
         <div id="loading" class="text-center text-gray-500 mt-4 hidden">
@@ -68,5 +81,9 @@
             }
         }
     </script>
+
+    <!-- Load Vanta.js Background -->
+    <script src="vanta-bg.js"></script>
+
 </body>
 </html>
